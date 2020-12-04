@@ -1,0 +1,1 @@
+while read line1; do while read line2; do while read line3; do if [ $(($line1+$line2+$line3)) -eq 2020 ]; then echo $(($line1*$line2*$line3)) && return; fi; done < input; done < input; done < input

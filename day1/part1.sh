@@ -1,0 +1,1 @@
+cat input | while read line; do grep -Fx $((2020-$line)) input; done | awk -v "MUL=1" '{MUL = MUL*$1} END { print MUL }'
