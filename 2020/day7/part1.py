@@ -18,9 +18,14 @@ class Node:
     def set_parents(self,parents):
         self.parents = parents
 
-def count_parents(node,visited,count):
+def traverse_and_count_parents(parents,visited,count):
     if node not in visited:
-        
+        return count
+    else:
+        amount = 0
+        for parent in node.get_parents:
+            
+        return count + count_parents()
 
 
 with open("test", "r") as input:
@@ -49,5 +54,7 @@ with open("test", "r") as input:
                 bagnode.add_child(subbagnode)
                 subbagnode.add_parent(bagnode)
     
+    amount = 0
+    visited = {}
     for parent in baglist.get("shiny gold").parents:
-        print(parent)
+        amount += count_parents(parent,amount,visited)
