@@ -14,11 +14,15 @@ class Node:
     def add_parent(self,parent):
         self.parents.append(parent)
 
-def traverse_and_store_parents(node,visited):
-    if node.parents:
-        for parent in node.parents:
-            visited.append(parent)
-            traverse_and_store_parents(parent,visited)
+def traverse_and_count_children(node, count):
+    if node.children:
+        sum = 0
+        for child in node.children:
+            print(str(child.get("amount")) + " " + str(child.get("node")))
+            sum += traverse_and_count_children(child.get("node"), count * child.get("amount"))
+        return sum + count
+    else:
+        return count
                 
 with open("input", "r") as input:
 
@@ -43,9 +47,9 @@ with open("input", "r") as input:
                     subbagnode = Node(subbagname)
                     baglist[subbagname] = subbagnode
                 
-                bagnode.add_child(subbagnode)
+                bagnode.add_child({"node":subbagnode, "amount":int(subbagcount)})
                 subbagnode.add_parent(bagnode)
     
-    visited = []
-    traverse_and_store_parents(baglist.get("shiny gold"),visited)
-    print(len(list(set(visited))))
+    
+    print(traverse_and_count_children(baglist.get("shiny gold"),1)-1)
+    
