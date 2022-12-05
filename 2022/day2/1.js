@@ -76,16 +76,16 @@ Y means you need to end the round in a draw
 Z means you need to win.
 */
 
-const resultPredictionMapper = {
-    "RX": shapePointsMapper["S"],
-    "RY": shapePointsMapper["R"],
-    "RZ": shapePointsMapper["P"],
-    "PX": shapePointsMapper["R"],
-    "PY": shapePointsMapper["P"],
-    "PZ": shapePointsMapper["S"],
-    "SX": shapePointsMapper["R"],
-    "SY": shapePointsMapper["S"],
-    "SZ": shapePointsMapper["P"]
+const expectationShapeMapper = {
+    "RX": "S",
+    "RY": "R",
+    "RZ": "P",
+    "PX": "R",
+    "PY": "P",
+    "PZ": "S",
+    "SX": "P",
+    "SY": "S",
+    "SZ": "R"
 }
 
 const resultPointsMapper = {
@@ -96,10 +96,13 @@ const resultPointsMapper = {
 
 let sum2 = 0
 for(const entry of aocDataArray) {
-    const [opponent, result] = entry.split(" ")
-    const shapePoint = resultPredictionMapper[`${shapeMapper[opponent]}${result}`]
-    console.log(shapePoint)
-    const resultPoints = resultPointsMapper[result]
-    sum2 += resultPoints + shapePoint
+    const [opponent, expectedResult] = entry.split(" ")
+    const opponentShape = shapeMapper[opponent]
+
+    const shapeToPlay = expectationShapeMapper[`${opponentShape}${expectedResult}`]
+    const resultPoints = resultPointsMapper[expectedResult]
+
+    console.log(opponentShape, expectedResult, " -> ", shapeToPlay)
+    sum2 += resultPoints + shapePointsMapper[shapeToPlay]
 }
 console.log("Part 2:", sum2)
