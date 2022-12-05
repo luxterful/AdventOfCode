@@ -1,0 +1,27 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "Repository for my solutions of http://adventofcode.com",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luxterful/AdventOfCode.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/luxterful/AdventOfCode/issues"
+  },
+  "homepage": "https://github.com/luxterful/AdventOfCode#readme",
+  "dependencies": {
+    "axios": "^1.2.0",
+    "eslint": "^8.28.0",
+    "readline-sync": "^1.4.10",
+    "yargs": "^17.6.2"
+  }
+}
