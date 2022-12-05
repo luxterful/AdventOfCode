@@ -1,25 +1,72 @@
 const aocData = process.argv[2]
 const aocDataArray = aocData.split(/\r?\n/)
 
-console.log(aocDataArray)
+var rotateMatrix = function (matrix) {
+    return flipMajorDiagonal(matrix.reverse());
+}
 
-let sum1 = 0
-let sum2 = 0
-for (const entry of aocDataArray) {
-    const [range1, range2] = entry.split(",")
-    const [r1low, r1high] = range1.split("-").map(entry => parseInt(entry))
-    const [r2low, r2high] = range2.split("-").map(entry => parseInt(entry))
+var flipMajorDiagonal = function (matrix) {
+    return matrix[0].map((column, index) => (
+        matrix.map(row => row[index])
+    ))
+}
 
-    if ((r1low >= r2low && r1high <= r2high) || (r2low >= r1low && r2high <= r1high)) {
-        sum1 += 1
+const table = []
+let indexInstructionStart = 0
+for (const [lineIndex, line] of aocDataArray.entries()) {
+    if (line.length === 0) {
+        indexInstructionStart = lineIndex + 1
+        break;
     }
 
-    if ((r2low <= r1low && r1low <= r2high)
-        || (r2low <= r1high && r1high <= r2high) 
-        || (r1low <= r2low && r2low <= r1high)
-        || (r1low <= r2high && r2high <= r1high)) {
-        sum2 += 1
+    const list = []
+    for (const [index, char] of Array.from(line).entries()) {
+        if ((index + 1) % 4 - 2 === 0) {
+            list.push(char)
+        }
+    }
+
+    table.push(list)
+}
+
+table.pop()
+
+const rotated = rotateMatrix(table)
+
+const containers = {}
+for (const [index, containerStack] of rotated.entries()) {
+    containers[index + 1] = containerStack.filter(x => x !== " ")
+}
+const containersCopy = JSON.parse(JSON.stringify(containers))
+
+const regEx = /move (\d+) from (\d+) to (\d+)/
+for (const instruction of aocDataArray.slice(indexInstructionStart)) {
+    const [, amount, from, to] = instruction.match(regEx)
+    for (let i = 0; i < amount; i++) {
+        containers[to].push(containers[from].pop())
     }
 }
-console.log("Part 1:", sum1)
-console.log("Part 2:", sum2)
+
+let word1 = ""
+for (const stack of Object.values(containers)) {
+    word1 += stack.pop()
+}
+
+console.log("Part 1:", word1)
+
+for (const instruction of aocDataArray.slice(indexInstructionStart)) {
+    const [, amount, from, to] = instruction.match(regEx)
+    const temp = []
+    for (let i = 0; i < amount; i++) {
+        temp.push(containersCopy[from].pop())
+    }
+    temp.reverse()
+    containersCopy[to].push(...temp)
+}
+
+let word2 = ""
+for (const stack of Object.values(containersCopy)) {
+    word2 += stack.pop()
+}
+
+console.log("Part 2:", word2)
