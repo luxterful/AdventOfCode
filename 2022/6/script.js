@@ -12,7 +12,7 @@ for (let i = 0; i < aocDataLength; i++) {
     const sliced = aocDataArray.slice(start, end)
 
     if (everyEntryUnique(sliced)) {
-        console.log(end)
+        console.log("Part 1:", end)
         break;
 
     }
@@ -24,7 +24,7 @@ for (let i = 0; i < aocDataLength; i++) {
     const sliced = aocDataArray.slice(start, end)
 
     if (everyEntryUnique(sliced)) {
-        console.log(end)
+        console.log("Part 2:", end)
         break;
 
     }

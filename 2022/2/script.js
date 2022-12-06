@@ -1,6 +1,6 @@
 const aocData = process.argv[2]
 const aocDataArray = aocData.split(/\r?\n/)
-
+aocDataArray.pop()
 /* 
 Column 1
 A for Rock
@@ -102,7 +102,6 @@ for(const entry of aocDataArray) {
     const shapeToPlay = expectationShapeMapper[`${opponentShape}${expectedResult}`]
     const resultPoints = resultPointsMapper[expectedResult]
 
-    console.log(opponentShape, expectedResult, " -> ", shapeToPlay)
     sum2 += resultPoints + shapePointsMapper[shapeToPlay]
 }
 console.log("Part 2:", sum2)
