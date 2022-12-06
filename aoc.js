@@ -3,13 +3,15 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { getAocData } from './utils/aocDataFetcher.js';
 import { execute } from './utils/execute.js';
+import fs from "fs"
 
 const ENVIRONMENTS = {
     "node": ".js",
     "ts-node": ".ts",
-    "python": ".py",
+    "python3": ".py",
     "cpp": ".cpp",
-    "bash": ".sh"
+    "bash": ".sh",
+    "php": ".php"
 }
 
 const argv = yargs(hideBin(process.argv)).argv
@@ -22,7 +24,7 @@ if (typeof year !== "number") {
 }
 
 if (year < 2015) {
-    console.log("ERROR: argument 'year' must be 2015 or later");
+    console.error("ERROR: argument 'year' must be 2015 or later");
     process.exit(1);
 }
 
@@ -32,7 +34,7 @@ if (typeof day !== "number") {
 }
 
 if (day < 1 || day > 25) {
-    console.log("ERROR: argument 'day' not in range 1-25");
+    console.error("ERROR: argument 'day' not in range 1-25");
     process.exit(1);
 }
 
@@ -42,8 +44,14 @@ if (!supporedEnvs.includes(env)) {
     process.exit(1);
 }
 
-const folder = `${year}/${day}`
+const script = `${year}/${day}/script${ENVIRONMENTS[env]}`
+
+const scriptExists = fs.existsSync(script)
+
+if(!scriptExists) {
+    console.error(`ERROR: script "${script}" does not exist`);
+    process.exit(1);
+}
 
 const aocData = await getAocData(year, day)
-
-execute(`${env} ${folder}/script${ENVIRONMENTS[env]} "${aocData}"`)
+execute(`${env} ${script} "${aocData}"`, aocData)

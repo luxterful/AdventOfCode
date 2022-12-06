@@ -1,6 +1,6 @@
-const aocData = process.argv[2]
-const aocDataArray = aocData.split(/\r?\n/)
-aocDataArray.pop()
+const { AOC_INPUT } = process.env
+const AOC_INPUT_ARRAY = AOC_INPUT.split(/\r?\n/)
+AOC_INPUT_ARRAY.pop()
 /* 
 Column 1
 A for Rock
@@ -62,7 +62,7 @@ function play(opponent, you) {
 }
 
 let sum = 0
-for(const entry of aocDataArray) {
+for (const entry of AOC_INPUT_ARRAY) {
     const [opponent, you] = entry.split(" ")
     const resultPoints = play(opponent, you)
     const shapePoints = shapePointsMapper[shapeMapper[you]]
@@ -95,7 +95,7 @@ const resultPointsMapper = {
 }
 
 let sum2 = 0
-for(const entry of aocDataArray) {
+for (const entry of AOC_INPUT_ARRAY) {
     const [opponent, expectedResult] = entry.split(" ")
     const opponentShape = shapeMapper[opponent]
 
