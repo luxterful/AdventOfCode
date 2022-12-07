@@ -29,3 +29,6 @@ foreach ($input_array as $value) {
 }
 echo "Part 1: ".$total_surface."\n\r";
 echo "Part 2: ".$total_ribbon."\n\r";
+
+var_dump("Part 2: ".$total_ribbon);
+var_dump("Part 2: ".$total_ribbon);

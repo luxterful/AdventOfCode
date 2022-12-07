@@ -54,4 +54,4 @@ if(!scriptExists) {
 }
 
 const aocData = await getAocData(year, day)
-execute(`${env} ${script} "${aocData}"`, aocData)
+execute(`${env} ${script}`, aocData)
