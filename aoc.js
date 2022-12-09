@@ -11,7 +11,8 @@ const ENVIRONMENTS = {
     "python3": ".py",
     "cpp": ".cpp",
     "bash": ".sh",
-    "php": ".php"
+    "php": ".php",
+    "go": ".go"
 }
 
 const argv = yargs(hideBin(process.argv)).argv
@@ -54,4 +55,8 @@ if(!scriptExists) {
 }
 
 const aocData = await getAocData(year, day)
-execute(`${env} ${script}`, aocData)
+if(env === "go") {
+    execute(`go run ${script}`, aocData)
+} else {
+    execute(`${env} ${script}`, aocData)
+}
