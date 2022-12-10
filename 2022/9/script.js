@@ -29,19 +29,27 @@ for (const instruction of AOC_INPUT_ARRAY) {
 
     if (CURRENT_POSITION.Y > MAXIMUM.U) {
         MAXIMUM.U = CURRENT_POSITION.X
-    } else if (CURRENT_POSITION.Y < MAXIMUM.D) {
+    }
+    if (CURRENT_POSITION.Y < MAXIMUM.D) {
         MAXIMUM.D = CURRENT_POSITION.Y
-    } else if (CURRENT_POSITION.X > MAXIMUM.R) {
+    }
+    if (CURRENT_POSITION.X > MAXIMUM.R) {
         MAXIMUM.R = CURRENT_POSITION.X
-    } else if (CURRENT_POSITION.X < MAXIMUM.L) {
+    }
+    if (CURRENT_POSITION.X < MAXIMUM.L) {
         MAXIMUM.L = CURRENT_POSITION.X
     }
 }
 console.log(MAXIMUM)
 console.log(CURRENT_POSITION)
 
-const PATH_MAP = Array.from(Array(Math.abs(MAXIMUM.L) + MAXIMUM.R + 1), () => new Array(Math.abs(MAXIMUM.D) + MAXIMUM.U + 1).fill("."));
-const TAIL_MAP = Array.from(Array(Math.abs(MAXIMUM.L) + MAXIMUM.R + 1), () => new Array(Math.abs(MAXIMUM.D) + MAXIMUM.U + 1).fill("."));
+const WIDTH = Math.abs(MAXIMUM.L) + MAXIMUM.R + 1;
+const HEIGHT = Math.abs(MAXIMUM.D) + MAXIMUM.U + 1
+
+console.log(WIDTH, HEIGHT)
+
+const PATH_MAP = Array.from(Array(HEIGHT), () => new Array(WIDTH).fill("."));
+const TAIL_MAP = Array.from(Array(HEIGHT), () => new Array(WIDTH).fill("."));
 
 function calcDelta(h, t) {
     return [Math.abs(t.X - h.X), Math.abs(t.Y - h.Y)]
@@ -53,8 +61,8 @@ const POS_H = {
 }
 
 const POS_T = {
-    X: Math.abs(MAXIMUM.L),
-    Y: Math.abs(MAXIMUM.D)
+    X: POS_H.X,
+    Y: POS_H.Y
 }
 
 PATH_MAP[POS_H.Y][POS_H.X] = "■"
