@@ -2,76 +2,55 @@ const aocData = process.env.AOC_INPUT;
 
 const findPhrase = "XMAS";
 
-function create2DArray(data) {
-  const rows = data.split(/\r?\n/).filter((row) => row.trim() !== "");
-  const array2D = rows.map((row) => row.split(""));
-  return array2D;
-}
+const matrix = aocData
+  .split(/\r?\n/)
+  .filter((row) => row.trim() !== "")
+  .map((row) => row.split(""));
 
-const matrix = create2DArray(aocData);
 const maxY = matrix.length - 1;
 const maxX = matrix[0].length - 1;
 
-console.log(maxX, maxY);
+let count = 0;
+for (let y = 0; y < matrix.length; y++) {
+  for (let x = 0; x < matrix[y].length; x++) {
+    if (matrix[y][x] === findPhrase[0]) {
+      const remainingPhrase = findPhrase.substring(1);
 
-function find(data, phrase) {
-  let count = 0;
-  for (const row_index in data) {
-    for (const col_index in data[row_index]) {
-      const char = data[row_index][col_index];
-      if (char === phrase[0]) {
-        const remainingPhrase = phrase.substring(1);
+      const directions = [-1, 0, 1].flatMap((x) =>
+        [-1, 0, 1].map((y) => ({ x, y }))
+      );
 
-        const searchDirections = [
-          { x: 1, y: 0 },
-          { x: 1, y: -1 },
-          { x: 0, y: -1 },
-          { x: -1, y: -1 },
-          { x: -1, y: 0 },
-          { x: -1, y: 1 },
-          { x: 0, y: 1 },
-          { x: 1, y: 1 },
-        ];
-
-        for (const direction of searchDirections) {
-          const foundPhrase = foundNextCharacter(
-            { x: parseInt(col_index), y: parseInt(row_index) },
-            direction,
-            remainingPhrase
-          );
-          if (foundPhrase) count++;
-        }
+      for (const direction of directions) {
+        const foundPhrase = foundNextCharacter(
+          { x, y },
+          direction,
+          remainingPhrase
+        );
+        if (foundPhrase) count++;
       }
     }
   }
-
-  console.log(`Found ${count} times '${phrase}'`);
 }
 
-function foundNextCharacter(position, searchDirection, phrase) {
-  if (phrase === "") {
-    return true;
-  }
+console.log(`Found ${count} times '${findPhrase}'`);
 
-  const newX = position.x + searchDirection.x;
-  const newY = position.y + searchDirection.y;
+function foundNextCharacter(pos, direction, phrase) {
+  pos = { x: pos.x + direction.x, y: pos.y + direction.y };
 
-  if (newX < 0 || newX > maxX || newY < 0 || newY > maxY) return false;
+  if (pos.x < 0 || pos.x > maxX || pos.y < 0 || pos.y > maxY) return false;
 
-  const lookForNextCharacter = phrase[0];
-  const remainingPhrase = phrase.substring(1);
+  if (matrix[pos.y][pos.x] === phrase[0]) {
+    const remainingPhrase = phrase.substring(1);
 
-  const foundCharacter = matrix[newY][newX];
+    if (remainingPhrase === "") return true;
 
-  if (foundCharacter === lookForNextCharacter) {
     return foundNextCharacter(
-      { x: newX, y: newY },
-      searchDirection,
-      remainingPhrase
+      { x: pos.x, y: pos.y },
+      direction,
+      phrase.substring(1)
     );
   }
 
   return false;
 }
 
-find(matrix, findPhrase);
