@@ -16,14 +16,12 @@ dat.map((row, y) =>
             y = y + yy;
 
             if (x < 0 || x > dat[0].length - 1 || y < 0 || y > dat.length - 1)
-              return false;
+              return;
 
             if (dat[y][x] === phrase[0]) {
               if (phrase.substring(1) === "") return true;
               return next({ x, y }, { xx, yy }, phrase.substring(1));
             }
-
-            return false;
           })({ x, y }, direction, findPhrase.substring(1)) && count++;
         });
     }
